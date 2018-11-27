@@ -40,7 +40,7 @@ public class IntroScreen implements Screen{
 
         if (Gdx.input.isTouched()) {
             // OLD (starts new game every time):
-            // game.setScreen(new GameScreen(game));
+            game.setScreen(new MainGameScreen(game));
             // dispose();
 
             // NEW: Implement pause to main menu;
