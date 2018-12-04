@@ -1,0 +1,90 @@
+
+dynoducks.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+duck_dead
+  rotate: false
+  xy: 537, 1508
+  size: 523, 465
+  orig: 720, 720
+  offset: 80, 182
+  index: -1
+duck_dead_red
+  rotate: false
+  xy: 5, 506
+  size: 523, 465
+  orig: 720, 720
+  offset: 80, 182
+  index: -1
+duck_throw
+  rotate: false
+  xy: 537, 1007
+  size: 460, 496
+  orig: 512, 512
+  offset: 44, 8
+  index: -1
+duck_throw_red
+  rotate: false
+  xy: 5, 5
+  size: 460, 496
+  orig: 512, 512
+  offset: 44, 8
+  index: -1
+duck_throw_tnt
+  rotate: false
+  xy: 5, 1477
+  size: 527, 496
+  orig: 576, 576
+  offset: 9, 40
+  index: -1
+duck_throw_tnt_red
+  rotate: false
+  xy: 5, 976
+  size: 527, 496
+  orig: 576, 576
+  offset: 9, 40
+  index: -1
+duck_walk
+  rotate: false
+  xy: 1065, 1477
+  size: 432, 496
+  orig: 512, 512
+  offset: 32, 8
+  index: 1
+duck_walk
+  rotate: false
+  xy: 1002, 977
+  size: 432, 495
+  orig: 512, 512
+  offset: 32, 9
+  index: 2
+duck_walk_1_red
+  rotate: false
+  xy: 1502, 1477
+  size: 432, 496
+  orig: 512, 512
+  offset: 32, 8
+  index: -1
+duck_walk_2_red
+  rotate: false
+  xy: 1439, 977
+  size: 432, 495
+  orig: 512, 512
+  offset: 32, 9
+  index: -1
+tnt
+  rotate: false
+  xy: 470, 250
+  size: 231, 251
+  orig: 256, 256
+  offset: 10, 5
+  index: -1
+wing_layer
+  rotate: false
+  xy: 470, 51
+  size: 198, 194
+  orig: 198, 194
+  offset: 0, 0
+  index: -1

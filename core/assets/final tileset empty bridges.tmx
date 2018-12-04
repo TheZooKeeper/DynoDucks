@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="30" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="Outside" tilewidth="32" tileheight="32" tilecount="4016" columns="8">
+  <image source="../Downloads/Outside.png" width="256" height="16064"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="50" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt2EsKwCAMRdEQhO5/W92Cm6mDFuRhxFlTewcH/MTgG6qbWWn81o9n89EZrY16rO7N6LnanP5tlRypkCOXnXK8fQcAAAAA/7HDG2Sn9yA58iBHLlX+mPXvuQTrWh+Nj0E/7eNS/1ip7dcvD7teZg==
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="50" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt10EKwCAMRFFRwWt41Sx7KO/WSil0oViQgKb/weyMMAsDSnRDaXykOfNkhn8ld+6Wq8PxocfqLHQANImBN8K+AgAAAPbA/2MdFjoAmv6yr0q4oylPztcOJzTFCog=
+  </data>
+ </layer>
+ <layer name="Tile Layer 3" width="50" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt16EOwCAQRMEV/fFK/rpBVEFTe8CMfOc3uSS5rwx6W6W/2uTe2yod+Fdtf+wVAADsq9o/4f8AvlTbn5P36gHBbkSB
+  </data>
+ </layer>
+</map>
