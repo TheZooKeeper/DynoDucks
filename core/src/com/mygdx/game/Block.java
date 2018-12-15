@@ -1,9 +1,19 @@
 package com.mygdx.game;
 
-public class Block {
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+
+import java.awt.Rectangle;
+
+public class Block
+{
     protected BlockState state;
     //TODO: Change Tile image
-    public Block() {
+
+
+    public Block()
+    {
+
         state = BlockState.NEW;
     }
 
@@ -19,7 +29,6 @@ public class Block {
                 state = BlockState.DESTROYED;
                 break;
             case DESTROYED:
-                //Do Nothing
                 break;
         }
     }
@@ -28,6 +37,7 @@ public class Block {
         //We can only repair destroyed blocks
         if (state == BlockState.DESTROYED) {
             state = BlockState.REPAIRED;
+           //image = REPAIRED;
             return true;
         } else {
             return false;

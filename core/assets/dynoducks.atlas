@@ -53,7 +53,7 @@ duck_walk
   orig: 512, 512
   offset: 32, 8
   index: 1
-duck_walk
+duck_walk_2
   rotate: false
   xy: 1002, 977
   size: 432, 495

@@ -42,7 +42,6 @@ public class IntroScreen implements Screen{
             // OLD (starts new game every time):
             game.setScreen(new MainGameScreen(game));
             // dispose();
-
             // NEW: Implement pause to main menu;
             // switches to new gamescreen to start game;
             // or switches back to gamescreen to resume game

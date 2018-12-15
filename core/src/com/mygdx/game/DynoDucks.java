@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class DynoDucks extends Game{
 	public SpriteBatch batch;
 	public BitmapFont font;
+
+
 	
 	@Override
 	public void create () {

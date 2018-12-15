@@ -1,0 +1,92 @@
+package com.mygdx.game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+
+
+// Class for the explosion of the dynamite
+// also plays the sound effect
+public class ExplosionAnimation
+{
+    private int x;
+    private int y;
+    private int frame = 0;
+
+    TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("explosion.atlas"));
+    Sound explosionSound = Gdx.audio.newSound(Gdx.files.internal("Explosion.mp3"));
+
+
+    // location of the explosion
+    public ExplosionAnimation(int x, int y)
+    {
+
+        // need an offset due to original texture map being slightly off center
+        this.x = x - 50;
+        this.y = y - 30;
+
+    }
+    public void explode (DynoDucks game)
+    {
+        game.batch.begin();
+        // for each 3 frame window
+        // draw the next stage of the explosion
+        // animation takes 24 frames total
+        if(frame <= 3)
+        {
+            // play sound effect on the first frame
+            if(frame == 1)
+            {
+                explosionSound.play();
+            }
+            TextureAtlas.AtlasRegion region = textureAtlas.findRegion("1");
+            Sprite temp = new Sprite(region);
+            game.batch.draw(temp, x,y,192,192);
+        }
+        else if(frame > 3 && frame <= 6)
+        {
+            TextureAtlas.AtlasRegion region = textureAtlas.findRegion("2");
+            Sprite temp = new Sprite(region);
+            game.batch.draw(temp, x,y,192,192);
+        }
+        else if(frame > 6 && frame <= 9)
+        {
+            TextureAtlas.AtlasRegion region = textureAtlas.findRegion("3");
+            Sprite temp = new Sprite(region);
+            game.batch.draw(temp, x,y,192,192);
+        }
+        else if(frame > 9 && frame <= 12)
+        {
+            TextureAtlas.AtlasRegion region = textureAtlas.findRegion("4");
+            Sprite temp = new Sprite(region);
+            game.batch.draw(temp, x,y,192,192);
+        }
+        else if(frame > 12 && frame <= 15)
+        {
+            TextureAtlas.AtlasRegion region = textureAtlas.findRegion("5");
+            Sprite temp = new Sprite(region);
+            game.batch.draw(temp, x,y,192,192);
+        }
+        else if(frame > 15 && frame <= 18)
+        {
+            TextureAtlas.AtlasRegion region = textureAtlas.findRegion("6");
+            Sprite temp = new Sprite(region);
+            game.batch.draw(temp, x,y,192,192);
+        }
+        else if(frame > 18 && frame <= 21)
+        {
+            TextureAtlas.AtlasRegion region = textureAtlas.findRegion("7");
+            Sprite temp = new Sprite(region);
+            game.batch.draw(temp, x,y,192,192);
+        }
+        else if(frame > 21 && frame <= 24)
+        {
+            TextureAtlas.AtlasRegion region = textureAtlas.findRegion("8");
+            Sprite temp = new Sprite(region);
+            game.batch.draw(temp, x,y,192,192);
+        }
+        game.batch.end();
+        frame++;
+    }
+}
+
