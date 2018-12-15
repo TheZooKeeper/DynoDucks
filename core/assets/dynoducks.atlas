@@ -6,85 +6,127 @@ filter: Nearest,Nearest
 repeat: none
 duck_dead
   rotate: false
-  xy: 537, 1508
-  size: 523, 465
-  orig: 720, 720
-  offset: 80, 182
+  xy: 1043, 1176
+  size: 471, 420
+  orig: 648, 648
+  offset: 72, 163
   index: -1
 duck_dead_red
+  rotate: true
+  xy: 452, 575
+  size: 471, 420
+  orig: 648, 648
+  offset: 72, 163
+  index: -1
+duck_mallet_down
   rotate: false
-  xy: 5, 506
-  size: 523, 465
-  orig: 720, 720
-  offset: 80, 182
+  xy: 566, 1598
+  size: 588, 448
+  orig: 922, 922
+  offset: 97, 237
+  index: -1
+duck_mallet_down_red
+  rotate: true
+  xy: 2, 458
+  size: 588, 448
+  orig: 922, 922
+  offset: 97, 237
+  index: -1
+duck_mallet_middle
+  rotate: false
+  xy: 2, 1548
+  size: 562, 498
+  orig: 922, 922
+  offset: 123, 237
+  index: -1
+duck_mallet_middle_red
+  rotate: false
+  xy: 2, 1048
+  size: 562, 498
+  orig: 922, 922
+  offset: 123, 237
+  index: -1
+duck_mallet_up
+  rotate: false
+  xy: 2, 2
+  size: 415, 454
+  orig: 518, 518
+  offset: 68, 35
+  index: -1
+duck_mallet_up_red
+  rotate: false
+  xy: 419, 2
+  size: 415, 454
+  orig: 518, 518
+  offset: 68, 35
   index: -1
 duck_throw
   rotate: false
-  xy: 537, 1007
-  size: 460, 496
-  orig: 512, 512
-  offset: 44, 8
+  xy: 1516, 1149
+  size: 415, 447
+  orig: 461, 461
+  offset: 39, 7
   index: -1
 duck_throw_red
   rotate: false
-  xy: 5, 5
-  size: 460, 496
-  orig: 512, 512
-  offset: 44, 8
+  xy: 874, 699
+  size: 415, 447
+  orig: 461, 461
+  offset: 39, 7
   index: -1
 duck_throw_tnt
   rotate: false
-  xy: 5, 1477
-  size: 527, 496
-  orig: 576, 576
-  offset: 9, 40
+  xy: 566, 1148
+  size: 475, 448
+  orig: 518, 518
+  offset: 8, 35
   index: -1
 duck_throw_tnt_red
   rotate: false
-  xy: 5, 976
-  size: 527, 496
-  orig: 576, 576
-  offset: 9, 40
+  xy: 1156, 1598
+  size: 475, 448
+  orig: 518, 518
+  offset: 8, 35
   index: -1
 duck_walk
   rotate: false
-  xy: 1065, 1477
-  size: 432, 496
-  orig: 512, 512
-  offset: 32, 8
+  xy: 1633, 1599
+  size: 390, 447
+  orig: 461, 461
+  offset: 28, 7
   index: 1
 duck_walk_2
-  rotate: false
-  xy: 1002, 977
-  size: 432, 495
-  orig: 512, 512
-  offset: 32, 9
+  rotate: true
+  xy: 874, 307
+  size: 390, 446
+  orig: 461, 461
+  offset: 28, 8
   index: 2
 duck_walk_1_red
   rotate: false
-  xy: 1502, 1477
-  size: 432, 496
-  orig: 512, 512
-  offset: 32, 8
+  xy: 1291, 700
+  size: 390, 447
+  orig: 461, 461
+  offset: 28, 7
   index: -1
 duck_walk_2_red
   rotate: false
-  xy: 1439, 977
-  size: 432, 495
-  orig: 512, 512
-  offset: 32, 9
+  xy: 1322, 252
+  size: 390, 446
+  orig: 461, 461
+  offset: 28, 8
   index: -1
 tnt
   rotate: false
-  xy: 470, 250
-  size: 231, 251
-  orig: 256, 256
-  offset: 10, 5
+  xy: 1683, 921
+  size: 209, 226
+  orig: 230, 230
+  offset: 8, 4
   index: -1
 wing_layer
   rotate: false
-  xy: 470, 51
-  size: 198, 194
-  orig: 198, 194
+  xy: 1683, 744
+  size: 178, 175
+  orig: 178, 175
   offset: 0, 0
   index: -1
