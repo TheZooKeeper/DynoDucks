@@ -30,7 +30,7 @@ public class MainGameScreen implements Screen {
     public Bridge eBridge;
     public ArrayList<Dynamite> dynamiteAL;
 
-    private int[] blockCenters = new int [] {128, 320, 512, 704, 896, 1088, 1280, 1472};
+    private int[] blockCenters = new int[]{128, 320, 512, 704, 896, 1088, 1280, 1472};
     private Music fightToTheDeath;
 
     private ArrayList<ExplosionAnimation> explosionArrayList;
@@ -40,7 +40,7 @@ public class MainGameScreen implements Screen {
     TiledMapRenderer tiledMapRenderer;
 
 
-    public  MainGameScreen(DynoDucks game){
+    public MainGameScreen(DynoDucks game) {
         this.game = game;
         // Pass this MainMenuScreen to a new GameScreen, so that GameScreen can
         // switch back to this MainMenuScreen when paused.
@@ -60,42 +60,59 @@ public class MainGameScreen implements Screen {
         setupBackground();
 
 
-
     }
+
     @Override
-    public void show()
-    {
+    public void show() {
         fightToTheDeath.play();
     }
 
     @Override
-    public void render(float delta)
-    {
+    public void render(float delta) {
         //TODO: We have to freeze the player/enemy
         renderBackground();
         // draw bridges and blocks
-        pBridge.draw(game,DuckType.PLAYER);
-        eBridge.draw(game,DuckType.ENEMY);
+        pBridge.draw(game, DuckType.PLAYER);
+        eBridge.draw(game, DuckType.ENEMY);
         //draw player
         player.draw(game);
         // handle movement
         player.processMovement();
-        // check if player threw a dynamite
-        if(player.newDynamite != null)
+
+        enemy.move();
+        enemy.draw(game);
+
+
+
+        /*
+        if(shouldRepairBlock() == true && enemy.state != DuckState.REBUILDING)
         {
+            enemy.repair(whichBlockShouldBeRepaired())
+        }
+        enemy.move();
+
+        */
+
+
+
+        // check if player threw a dynamite
+        if (player.newDynamite != null) {
             dynamiteAL.add(player.newDynamite);
         }
+        // check if enemy threw a dynamite
+        if (enemy.newDynamite != null) {
+            dynamiteAL.add(enemy.newDynamite);
+        }
+
         //handle dynamite movement
-        for(Dynamite dynamite : dynamiteAL)
-        {
+        for (Dynamite dynamite : dynamiteAL) {
             dynamite.draw(game);
         }
         // check to see whether a bridge block should explode
         handleBridgeExplosions();
 
         // play explosion animations and sounds
-        for(ExplosionAnimation explosion : explosionArrayList)
-        {
+        for (ExplosionAnimation explosion : explosionArrayList) {
             explosion.explode(game);
         }
     }
@@ -125,54 +142,46 @@ public class MainGameScreen implements Screen {
 
     }
 
-    public void setupBackground()
-    {
+    public void setupBackground() {
         // stuff for bridge, don't ask idk
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
         camera = new OrthographicCamera();
-        camera.setToOrtho(false,w,h);
+        camera.setToOrtho(false, w, h);
         camera.update();
         tiledMap = new TmxMapLoader().load("final tileset empty bridges.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
     }
 
-    public void renderBackground()
-    {
+    public void renderBackground() {
         // more stuff for bridge, don't ask
         camera.update();
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
     }
 
-    public void handleBridgeExplosions()
-    {
+    public void handleBridgeExplosions() {
         // for every dynamite
         Iterator<Dynamite> iter = dynamiteAL.iterator();
-        while (iter.hasNext())
-        {
+        while (iter.hasNext()) {
             Dynamite dynamite = iter.next();
 
             // if its a player thrown dynamite and it's at the right y coordinate to hit a bridge blook
-            if(dynamite.yCoord > 750 && dynamite.duck.type == DuckType.PLAYER)
-            {
+            if (dynamite.yCoord > 750 && dynamite.duck.type == DuckType.PLAYER) {
 
                 int min = 1000000;
                 int minIndex = 100000;
                 int index = 0;
                 // try find the closest block with the center closest to the dynamite
-                for (Integer value : blockCenters)
-                {
-                    if (Math.abs(value - dynamite.xCoord) < min)
-                    {
+                for (Integer value : blockCenters) {
+                    if (Math.abs(value - dynamite.xCoord) < min) {
                         min = Math.abs(value - dynamite.xCoord);
                         minIndex = index;
                     }
                     index++;
                 }
                 // if it's not currently destroyed, hit it
-                if (eBridge.bridgeArr[minIndex].state != BlockState.DESTROYED)
-                {
+                if (eBridge.bridgeArr[minIndex].state != BlockState.DESTROYED) {
                     eBridge.bridgeArr[minIndex].hit();
                     dynamite.explode();
                     ExplosionAnimation explosion = new ExplosionAnimation(dynamite.xCoord, dynamite.yCoord);
@@ -183,22 +192,18 @@ public class MainGameScreen implements Screen {
 
             }
             // do the same thing for enemy dynamite
-            else if(dynamite.yCoord < 220 && dynamite.duck.type == DuckType.ENEMY)
-            {
+            else if (dynamite.yCoord < 220 && dynamite.duck.type == DuckType.ENEMY) {
                 int min = 1000000;
                 int minIndex = 100000;
                 int index = 0;
-                for (Integer value : blockCenters)
-                {
-                    if (Math.abs(value - dynamite.xCoord) < min)
-                    {
+                for (Integer value : blockCenters) {
+                    if (Math.abs(value - dynamite.xCoord) < min) {
                         min = Math.abs(value - dynamite.xCoord);
                         minIndex = index;
                     }
                     index++;
                 }
-                if (pBridge.bridgeArr[minIndex].state != BlockState.DESTROYED)
-                {
+                if (pBridge.bridgeArr[minIndex].state != BlockState.DESTROYED) {
                     pBridge.bridgeArr[minIndex].hit();
                     dynamite.explode();
                     iter.remove();
@@ -210,6 +215,100 @@ public class MainGameScreen implements Screen {
 
     }
 
+    // returns the index of the block a duck is standing on
+    public int getBlockStandingOn(Duck duck)
+    {
+        int min = 1000000;
+        int minIndex = 100000;
+        int index = 0;
+        for (Integer value : blockCenters) {
+            if (Math.abs(value - duck.getxCoord()) < min) {
+                min = Math.abs(value - duck.getxCoord());
+                minIndex = index;
+            }
+            index++;
+        }
+        return minIndex;
+    }
+
+    // returns whether or not there is a block on the enemy's left or right side that should be repaired
+    public boolean shouldRepairBlock()
+    {
+        if(getBlockStandingOn(enemy) == 0)
+        {
+            if(eBridge.bridgeArr[getBlockStandingOn(enemy) + 1].state == BlockState.DESTROYED)
+            {
+                return true;
+            }
+            return false;
+        }
+        else if(getBlockStandingOn(enemy) == 7)
+        {
+            if(eBridge.bridgeArr[getBlockStandingOn(enemy) - 1].state == BlockState.DESTROYED)
+            {
+                return true;
+            }
+            return false;
+
+        }
+        else
+        {
+            if(eBridge.bridgeArr[getBlockStandingOn(enemy) + 1].state == BlockState.DESTROYED
+                    || eBridge.bridgeArr[getBlockStandingOn(enemy) - 1].state == BlockState.DESTROYED)
+            {
+                return true;
+            }
+            return false;
+        }
+    }
+
+    // returns the index of which block the enemy duck should repair, if it is destroyed
+    public int whichBlockShouldBeRepaired()
+    {
+        if(getBlockStandingOn(enemy) == 0)
+        {
+            if(eBridge.bridgeArr[getBlockStandingOn(enemy) + 1].state == BlockState.DESTROYED)
+            {
+                return getBlockStandingOn(enemy) + 1;
+            }
+        }
+        else if(getBlockStandingOn(enemy) == 7)
+        {
+            if(eBridge.bridgeArr[getBlockStandingOn(enemy) - 1].state == BlockState.DESTROYED)
+            {
+                return getBlockStandingOn(enemy) - 1;
+            }
+
+        }
+        else
+        {
+            if(eBridge.bridgeArr[getBlockStandingOn(enemy) + 1].state == BlockState.DESTROYED
+                    || eBridge.bridgeArr[getBlockStandingOn(enemy) - 1].state == BlockState.DESTROYED)
+            {
+                if(eBridge.bridgeArr[getBlockStandingOn(enemy) + 1].state == BlockState.DESTROYED)
+                {
+                    return getBlockStandingOn(enemy) + 1;
+                }
+                else
+                {
+                    return getBlockStandingOn(enemy) - 1;
+                }
+            }
+        }
+        // this default should never happen, only call this method if shouldRepairBlock() returns true
+        return 1;
+    }
+
+    // checks to see if a duck is standing on a destroyed block
+    // if so, set their state to dead (and possibly do other things later)
+    public void killDuckIfNeccessary(Duck duck)
+    {
+        int minIndex = getBlockStandingOn(duck);
+        if (pBridge.bridgeArr[minIndex].state != BlockState.DESTROYED)
+        {
+            duck.setState(DuckState.DEAD);
+        }
+    }
 
 }
 

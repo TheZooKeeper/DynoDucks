@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 public class Player extends  Duck
 {
 
-    int xCoord;
     // false means facing left, true means facing right
     boolean direction;
     // frame counter for walking animation
@@ -26,12 +25,15 @@ public class Player extends  Duck
     }
     public void processMovement()
     {
+        //TODO proccess movement for rebuilding
+        // TODO handle being dead
+
         // set a new dynamite to null so it forgets anything thrown the previous pass
         newDynamite = null;
 
         // don't allow the player to move during the throw or repair actions, they are locked in
-        // the animation
-        if(state != DuckState.THROWING && state != DuckState.REBUILDING)
+        // the animation. Alse can't move while dead
+        if(state != DuckState.THROWING && state != DuckState.REBUILDING && state != DuckState.DEAD)
         {
             // d moves right until a certain point.
             // player always faces right while moving right
@@ -110,6 +112,7 @@ public class Player extends  Duck
             else
             {
                 TextureAtlas.AtlasRegion region = textureAtlas.findRegion("duck_walk_2");
+
                 Sprite temp = new Sprite(region);
                 if(direction  == true)
                 {
@@ -150,9 +153,63 @@ public class Player extends  Duck
             game.batch.draw(temp, xCoord,yCoord,64,96);
             currentFrame = 0;
         }
+        else if (state == DuckState.REBUILDING)
+        {
+            // Rebuilding animation part 1
+            if(currentFrame < 10)
+            {
+                TextureAtlas.AtlasRegion region = textureAtlas.findRegion("duck_mallet_up");
+                Sprite temp = new Sprite(region);
+                // mirror image depending on direction
+                if(direction  == true)
+                {
+                    temp.flip(true, false);
+                }
+                game.batch.draw(temp, xCoord,yCoord,64,96);
+                currentFrame++;
+            }
+            // walking animation part 2
+            else if ((currentFrame < 20 && currentFrame > 10))
+            {
+                TextureAtlas.AtlasRegion region = textureAtlas.findRegion("duck_mallet_middle");
 
-        // TODO add rebuilding animation
-        // TODO add death animation
+                Sprite temp = new Sprite(region);
+                if(direction  == true)
+                {
+                    temp.flip(true, false);
+                }
+                game.batch.draw(temp, xCoord,yCoord,64,96);
+                currentFrame++;
+            }
+            else if((currentFrame < 30 && currentFrame > 20))
+            {
+                TextureAtlas.AtlasRegion region = textureAtlas.findRegion("duck_mallet_down");
+
+                Sprite temp = new Sprite(region);
+                if(direction  == true)
+                {
+                    temp.flip(true, false);
+                }
+                game.batch.draw(temp, xCoord,yCoord,64,96);
+                currentFrame++;
+                if(currentFrame > 30)
+                {
+                    currentFrame = 0;
+                }
+            }
+        }
+        else if(state == DuckState.DEAD)
+        {
+            TextureAtlas.AtlasRegion region = textureAtlas.findRegion("duck_dead");
+            Sprite temp = new Sprite(region);
+            // mirror depending on direction
+            if(direction  == true)
+            {
+                temp.flip(true, false);
+            }
+            game.batch.draw(temp, xCoord,yCoord,64,96);
+            currentFrame = 0;
+        }
         game.batch.end();
     }
 }

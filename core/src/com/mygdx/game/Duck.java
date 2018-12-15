@@ -12,6 +12,8 @@ public abstract class Duck {
     protected long throwTimerAnimation;
     protected long throwTimerAction;
 
+    protected int xCoord;
+
 
     public Duck(DuckType type)
     {
@@ -27,6 +29,15 @@ public abstract class Duck {
     public void moveLeft()
     {
 
+    }
+
+    public int getxCoord()
+    {
+        return xCoord;
+    }
+    public void setState(DuckState duckState)
+    {
+        state = duckState;
     }
 
 }
