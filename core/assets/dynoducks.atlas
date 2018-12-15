@@ -6,13 +6,49 @@ filter: Nearest,Nearest
 repeat: none
 duck_dead
   rotate: false
+<<<<<<< HEAD
   xy: 2, 218
   size: 445, 396
   orig: 612, 612
   offset: 68, 154
+=======
+  xy: 1043, 1176
+  size: 471, 420
+  orig: 648, 648
+  offset: 72, 163
+>>>>>>> dd4050b76269a649bf95766577c21987178fc6a7
   index: -1
 duck_dead_red
+  rotate: true
+  xy: 452, 575
+  size: 471, 420
+  orig: 648, 648
+  offset: 72, 163
+  index: -1
+duck_mallet_down
   rotate: false
+  xy: 566, 1598
+  size: 588, 448
+  orig: 922, 922
+  offset: 97, 237
+  index: -1
+duck_mallet_down_red
+  rotate: true
+  xy: 2, 458
+  size: 588, 448
+  orig: 922, 922
+  offset: 97, 237
+  index: -1
+duck_mallet_middle
+  rotate: false
+  xy: 2, 1548
+  size: 562, 498
+  orig: 922, 922
+  offset: 123, 237
+  index: -1
+duck_mallet_middle_red
+  rotate: false
+<<<<<<< HEAD
   xy: 1091, 1162
   size: 445, 396
   orig: 612, 612
@@ -121,12 +157,100 @@ tnt
   xy: 2, 2
   size: 198, 214
   orig: 218, 218
+=======
+  xy: 2, 1048
+  size: 562, 498
+  orig: 922, 922
+  offset: 123, 237
+  index: -1
+duck_mallet_up
+  rotate: false
+  xy: 2, 2
+  size: 415, 454
+  orig: 518, 518
+  offset: 68, 35
+  index: -1
+duck_mallet_up_red
+  rotate: false
+  xy: 419, 2
+  size: 415, 454
+  orig: 518, 518
+  offset: 68, 35
+  index: -1
+duck_throw
+  rotate: false
+  xy: 1516, 1149
+  size: 415, 447
+  orig: 461, 461
+  offset: 39, 7
+  index: -1
+duck_throw_red
+  rotate: false
+  xy: 874, 699
+  size: 415, 447
+  orig: 461, 461
+  offset: 39, 7
+  index: -1
+duck_throw_tnt
+  rotate: false
+  xy: 566, 1148
+  size: 475, 448
+  orig: 518, 518
+  offset: 8, 35
+  index: -1
+duck_throw_tnt_red
+  rotate: false
+  xy: 1156, 1598
+  size: 475, 448
+  orig: 518, 518
+  offset: 8, 35
+  index: -1
+duck_walk
+  rotate: false
+  xy: 1633, 1599
+  size: 390, 447
+  orig: 461, 461
+  offset: 28, 7
+  index: 1
+duck_walk_2
+  rotate: true
+  xy: 874, 307
+  size: 390, 446
+  orig: 461, 461
+  offset: 28, 8
+  index: 2
+duck_walk_1_red
+  rotate: false
+  xy: 1291, 700
+  size: 390, 447
+  orig: 461, 461
+  offset: 28, 7
+  index: -1
+duck_walk_2_red
+  rotate: false
+  xy: 1322, 252
+  size: 390, 446
+  orig: 461, 461
+  offset: 28, 8
+  index: -1
+tnt
+  rotate: false
+  xy: 1683, 921
+  size: 209, 226
+  orig: 230, 230
+>>>>>>> dd4050b76269a649bf95766577c21987178fc6a7
   offset: 8, 4
   index: -1
 wing_layer
   rotate: false
+<<<<<<< HEAD
   xy: 1587, 957
   size: 168, 165
   orig: 168, 165
+=======
+  xy: 1683, 744
+  size: 178, 175
+  orig: 178, 175
+>>>>>>> dd4050b76269a649bf95766577c21987178fc6a7
   offset: 0, 0
   index: -1
