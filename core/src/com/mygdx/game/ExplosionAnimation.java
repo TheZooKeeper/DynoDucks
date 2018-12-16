@@ -26,7 +26,7 @@ public class ExplosionAnimation
         this.y = y - 30;
 
     }
-    public void explode (DynoDucks game)
+    public void explode (DynoDucks game, boolean gameOver)
     {
         game.batch.begin();
         // for each 3 frame window
@@ -35,7 +35,9 @@ public class ExplosionAnimation
         if(frame <= 3)
         {
             // play sound effect on the first frame
-            if(frame == 1)
+            // take game over as a parameter to ensure that the sound doesn't overpower daffy duck
+            // telling you how despicable you really are after the game is over
+            if(frame == 1 && gameOver == false)
             {
                 explosionSound.play();
             }

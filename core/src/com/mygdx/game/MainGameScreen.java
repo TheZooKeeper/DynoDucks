@@ -39,6 +39,9 @@ public class MainGameScreen implements Screen {
     TiledMap tiledMap;
     TiledMapRenderer tiledMapRenderer;
 
+    private boolean gameOver;
+    private long timeSinceGameOver;
+
 
     public MainGameScreen(DynoDucks game) {
         this.game = game;
@@ -55,7 +58,10 @@ public class MainGameScreen implements Screen {
         fightToTheDeath = Gdx.audio.newMusic(Gdx.files.internal("The Man with the Machine Gun.mp3"));
         fightToTheDeath.setLooping(true);
 
+
         explosionArrayList = new ArrayList<ExplosionAnimation>();
+
+        gameOver = false;
 
         setupBackground();
 
@@ -113,8 +119,27 @@ public class MainGameScreen implements Screen {
 
         // play explosion animations and sounds
         for (ExplosionAnimation explosion : explosionArrayList) {
-            explosion.explode(game);
+            explosion.explode(game, gameOver);
         }
+
+        // check if game is over
+        if((checkIfGameOver(player) || checkIfGameOver(enemy)) && gameOver == false)
+        {
+            //game over does not remove dynamite. The player can possibly still die
+            gameOver = true;
+            timeSinceGameOver = System.currentTimeMillis();
+
+        }
+
+        // if game is over, wait a bit before ending the game
+        if(gameOver == true && (System.currentTimeMillis() - timeSinceGameOver > 5000))
+        {
+            gameOver = false;
+            fightToTheDeath.stop();
+            game.setScreen(new ExitScreen(game));
+        }
+
+
     }
 
     @Override
@@ -216,13 +241,17 @@ public class MainGameScreen implements Screen {
     }
 
     // returns the index of the block a duck is standing on
+    // actually tested and can confirm is accurate
     public int getBlockStandingOn(Duck duck)
     {
         int min = 1000000;
         int minIndex = 100000;
         int index = 0;
-        for (Integer value : blockCenters) {
-            if (Math.abs(value - duck.getxCoord()) < min) {
+        for (Integer value : blockCenters)
+        {
+            System.out.println("Duck " + duck.type + " distance to block " + index + "; " + Math.abs(value - duck.getxCoord()));
+            if ((Math.abs(value - duck.getxCoord())) < min)
+            {
                 min = Math.abs(value - duck.getxCoord());
                 minIndex = index;
             }
@@ -232,6 +261,7 @@ public class MainGameScreen implements Screen {
     }
 
     // returns whether or not there is a block on the enemy's left or right side that should be repaired
+    // may or may not work (probably not)
     public boolean shouldRepairBlock()
     {
         if(getBlockStandingOn(enemy) == 0)
@@ -263,6 +293,8 @@ public class MainGameScreen implements Screen {
     }
 
     // returns the index of which block the enemy duck should repair, if it is destroyed
+    // may or may not work
+    // probably not
     public int whichBlockShouldBeRepaired()
     {
         if(getBlockStandingOn(enemy) == 0)
@@ -300,15 +332,31 @@ public class MainGameScreen implements Screen {
     }
 
     // checks to see if a duck is standing on a destroyed block
-    // if so, set their state to dead (and possibly do other things later)
-    public void killDuckIfNeccessary(Duck duck)
+    // if so, set their state to dead and return true, signaling the end of the game
+    public boolean checkIfGameOver(Duck duck)
     {
         int minIndex = getBlockStandingOn(duck);
-        if (pBridge.bridgeArr[minIndex].state != BlockState.DESTROYED)
+        if(duck.type == DuckType.PLAYER)
         {
-            duck.setState(DuckState.DEAD);
+            if (pBridge.bridgeArr[minIndex].state == BlockState.DESTROYED)
+            {
+                duck.setState(DuckState.DEAD);
+                return true;
+            }
+            return false;
         }
+        else
+        {
+            if (eBridge.bridgeArr[minIndex].state == BlockState.DESTROYED)
+            {
+                duck.setState(DuckState.DEAD);
+                return true;
+            }
+            return false;
+        }
+
     }
+
 
 }
 

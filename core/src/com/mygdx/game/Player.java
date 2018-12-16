@@ -80,6 +80,10 @@ public class Player extends  Duck
                state = DuckState.STATIONARY;
            }
         }
+        else if(state == DuckState.DEAD)
+        {
+            // if duck is dead, do nothing;
+        }
         // if no input, player is stationary
         else
         {

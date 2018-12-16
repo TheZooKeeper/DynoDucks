@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 public class Enemy extends  Duck
 {
-    int xCoord;
     // false means facing left, true means facing right
     boolean direction;
     // frame counter for walking animation
@@ -24,6 +23,10 @@ public class Enemy extends  Duck
     // in a certain state
     public void move()
     {
+        // check to see how Player move works before attempting this
+        // Once the duck is in the Throw state, keep it in the throw state for at least .25 seconds
+        // Once the duck is in the rebuilding state, keep it in that state for at least 1 second
+        // This is so the the duck can't act too soon out of the animations
         if(state != DuckState.REBUILDING && state != DuckState.THROWING && state!= DuckState.DEAD)
         {
             state = DuckState.MOVING;
@@ -51,6 +54,15 @@ public class Enemy extends  Duck
                     xCoord -= 8;
                 }
             }
+        }
+        else if(state == DuckState.DEAD)
+        {
+            // do nothing if duck is dead (stay still but be dead)
+        }
+        // if no input AND duck isn't dead, it must be stationary
+        else
+        {
+            state = DuckState.STATIONARY;
         }
 
     }
