@@ -50,7 +50,7 @@ public class MainGameScreen implements Screen {
         camera = new OrthographicCamera();
         //camera.setToOrtho(false, Globals.RESOLUTION_WIDTH,Globals.RESOLUTION_HEIGHT);
         player = new Player();
-        enemy = new Enemy();
+        enemy = new Enemy(this);
         pBridge = new Bridge(8);
         eBridge = new Bridge(8);
         dynamiteAL = new ArrayList<Dynamite>();
@@ -123,7 +123,7 @@ public class MainGameScreen implements Screen {
         }
 
         // check if game is over
-        if((checkIfGameOver(player) || checkIfGameOver(enemy)) && gameOver == false)
+        if((checkIfGameOver(player) || checkIfGameOver(enemy)) && gameOver)
         {
             //game over does not remove dynamite. The player can possibly still die
             gameOver = true;
@@ -132,7 +132,7 @@ public class MainGameScreen implements Screen {
         }
 
         // if game is over, wait a bit before ending the game
-        if(gameOver == true && (System.currentTimeMillis() - timeSinceGameOver > 5000))
+        if(gameOver && (System.currentTimeMillis() - timeSinceGameOver > 5000))
         {
             gameOver = false;
             fightToTheDeath.stop();
@@ -259,6 +259,35 @@ public class MainGameScreen implements Screen {
         }
         return minIndex;
     }
+    // returns the index of the closest block the caller
+    public int getClosestBlock(Duck duck)
+    {
+        int min = 1000000;
+        int minIndex = 100000;
+        int index = 0;
+        for (Integer value : blockCenters)
+        {
+            System.out.println("Duck " + duck.type + " distance to block " + index + "; " + Math.abs(value - duck.getxCoord()));
+            if ((Math.abs(value - duck.getxCoord())) < min)
+            {
+                min = Math.abs(value - duck.getxCoord());
+                minIndex = index;
+            }
+            index++;
+        }
+        if (index == 1)
+        {
+            return 2;
+        }
+        else if (index == blockCenters.length -1 )
+        {
+            return index -1;
+        }
+        else
+        {
+            return (blockCenters[index] > duck.getxCoord() ? index - 1 : index +1);
+        }
+    }
 
     // returns whether or not there is a block on the enemy's left or right side that should be repaired
     // may or may not work (probably not)
@@ -266,29 +295,17 @@ public class MainGameScreen implements Screen {
     {
         if(getBlockStandingOn(enemy) == 0)
         {
-            if(eBridge.bridgeArr[getBlockStandingOn(enemy) + 1].state == BlockState.DESTROYED)
-            {
-                return true;
-            }
-            return false;
+            return eBridge.bridgeArr[getBlockStandingOn(enemy) + 1].state == BlockState.DESTROYED;
         }
         else if(getBlockStandingOn(enemy) == 7)
         {
-            if(eBridge.bridgeArr[getBlockStandingOn(enemy) - 1].state == BlockState.DESTROYED)
-            {
-                return true;
-            }
-            return false;
+            return eBridge.bridgeArr[getBlockStandingOn(enemy) - 1].state == BlockState.DESTROYED;
 
         }
         else
         {
-            if(eBridge.bridgeArr[getBlockStandingOn(enemy) + 1].state == BlockState.DESTROYED
-                    || eBridge.bridgeArr[getBlockStandingOn(enemy) - 1].state == BlockState.DESTROYED)
-            {
-                return true;
-            }
-            return false;
+            return eBridge.bridgeArr[getBlockStandingOn(enemy) + 1].state == BlockState.DESTROYED
+                    || eBridge.bridgeArr[getBlockStandingOn(enemy) - 1].state == BlockState.DESTROYED;
         }
     }
 

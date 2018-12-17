@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 public class Player extends  Duck
 {
-
     // false means facing left, true means facing right
     boolean direction;
     // frame counter for walking animation
@@ -32,7 +31,7 @@ public class Player extends  Duck
         newDynamite = null;
 
         // don't allow the player to move during the throw or repair actions, they are locked in
-        // the animation. Alse can't move while dead
+        // the animation. Also can't move while dead
         if(state != DuckState.THROWING && state != DuckState.REBUILDING && state != DuckState.DEAD)
         {
             // d moves right until a certain point.
@@ -105,7 +104,7 @@ public class Player extends  Duck
                 TextureAtlas.AtlasRegion region = textureAtlas.findRegion("duck_walk");
                 Sprite temp = new Sprite(region);
                 // mirror image depending on direction
-                if(direction  == true)
+                if(direction)
                 {
                     temp.flip(true, false);
                 }
@@ -118,7 +117,7 @@ public class Player extends  Duck
                 TextureAtlas.AtlasRegion region = textureAtlas.findRegion("duck_walk_2");
 
                 Sprite temp = new Sprite(region);
-                if(direction  == true)
+                if(direction)
                 {
                     temp.flip(true, false);
                 }
@@ -137,7 +136,7 @@ public class Player extends  Duck
             TextureAtlas.AtlasRegion region = textureAtlas.findRegion("duck_walk");
             Sprite temp = new Sprite(region);
             // mirror depending on direction
-            if(direction  == true)
+            if(direction)
             {
                 temp.flip(true, false);
             }
@@ -150,7 +149,7 @@ public class Player extends  Duck
             TextureAtlas.AtlasRegion region = textureAtlas.findRegion("duck_throw");
             Sprite temp = new Sprite(region);
             // mirror depending on direction
-            if(direction  == true)
+            if(direction)
             {
                 temp.flip(true, false);
             }
@@ -165,7 +164,7 @@ public class Player extends  Duck
                 TextureAtlas.AtlasRegion region = textureAtlas.findRegion("duck_mallet_up");
                 Sprite temp = new Sprite(region);
                 // mirror image depending on direction
-                if(direction  == true)
+                if(direction)
                 {
                     temp.flip(true, false);
                 }
@@ -178,7 +177,7 @@ public class Player extends  Duck
                 TextureAtlas.AtlasRegion region = textureAtlas.findRegion("duck_mallet_middle");
 
                 Sprite temp = new Sprite(region);
-                if(direction  == true)
+                if(direction)
                 {
                     temp.flip(true, false);
                 }
@@ -190,7 +189,7 @@ public class Player extends  Duck
                 TextureAtlas.AtlasRegion region = textureAtlas.findRegion("duck_mallet_down");
 
                 Sprite temp = new Sprite(region);
-                if(direction  == true)
+                if(direction)
                 {
                     temp.flip(true, false);
                 }
@@ -207,7 +206,7 @@ public class Player extends  Duck
             TextureAtlas.AtlasRegion region = textureAtlas.findRegion("duck_dead");
             Sprite temp = new Sprite(region);
             // mirror depending on direction
-            if(direction  == true)
+            if(direction)
             {
                 temp.flip(true, false);
             }

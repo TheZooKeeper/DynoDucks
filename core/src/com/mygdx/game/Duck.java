@@ -11,6 +11,7 @@ public abstract class Duck {
     protected TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("dynoducks.atlas"));
     protected long throwTimerAnimation;
     protected long throwTimerAction;
+    protected long rebuildTimerAction;
 
     protected int xCoord;
 
