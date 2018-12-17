@@ -43,15 +43,18 @@ public class Enemy extends  Duck
         2nd make a decision for the action to be preformed
         3rd do action
          */
+        // set new dynamite = null so 3000000000 dynamites aren't created
+        newDynamite = null;
 
         //Is action locked because of throw or rebuild
         if(actionLock)
         {
-            if((state == DuckState.THROWING && System.currentTimeMillis() - throwTimerAction > 1500)
-                    || (state == DuckState.REBUILDING && System.currentTimeMillis() - throwTimerAction > 1500))
+            if((state == DuckState.THROWING && System.currentTimeMillis() - throwTimerAction > 200)
+                    || (state == DuckState.REBUILDING && System.currentTimeMillis() - rebuildTimerAction > 1500))
             {
                 //We should open the lock
                 actionLock = false;
+                //state = DuckState.MOVING;
             }
             else {
                 //We don't want to do anything move related so return
@@ -63,15 +66,30 @@ public class Enemy extends  Duck
         {
             //Enemy duck should never stop moving. unless rebuilding or throwing
             //Let's check if we have the option to rebuild
-            if(game.eBridge.bridgeArr[game.getClosestBlock(this)].state == BlockState.HIT ||
-                    game.eBridge.bridgeArr[game.getClosestBlock(this)].state == BlockState.DESTROYED)
+            if(game.eBridge.bridgeArr[game.getClosestBlock(this)].state == BlockState.DESTROYED)
             {
                 //TODO: Add Logic
-                state = DuckState.REBUILDING;
+                // duck is dead
+                if(game.eBridge.bridgeArr[game.getBlockStandingOn(this)].state == BlockState.DESTROYED)
+                {
+                    state = DuckState.DEAD;
+                }
+                // bridge is repaired
+                if(state == DuckState.REBUILDING && System.currentTimeMillis() - rebuildTimerAction > 1500)
+                {
+                    game.eBridge.bridgeArr[game.getClosestBlock(this)].state= BlockState.REPAIRED;
+                    state = DuckState.MOVING;
+                }
+                else
+                {
+                    state = DuckState.REBUILDING;
+                }
             }
             else
             {
-                if(System.currentTimeMillis() - lastThrow > 2500)
+                if(System.currentTimeMillis() - lastThrow > 2000 &&
+                        // ensure enemy duck isn't throwing dynamite toward destroyed blocks
+                        game.pBridge.bridgeArr[game.getBlockStandingOn(this)].state != BlockState.DESTROYED)
                 {
                     state = DuckState.THROWING;
                 }
@@ -120,9 +138,9 @@ public class Enemy extends  Duck
         else if(state == DuckState.THROWING)
         {
                 // time player is locked into the throw animation
-                throwTimerAnimation = System.currentTimeMillis();
-                // time before another dynamite can be thrown
                 throwTimerAction = System.currentTimeMillis();
+                // time before another dynamite can be thrown
+                lastThrow = System.currentTimeMillis();
                 // the new dynamite created
                 newDynamite = new Dynamite(this, xCoord);
                 actionLock = true;
@@ -205,6 +223,7 @@ public class Enemy extends  Duck
         // rebuilding animation
         else if (state == DuckState.REBUILDING)
         {
+            System.out.println("current frame: " + currentFrame);
             // Rebuilding animation part 1
             if(currentFrame < 10)
             {
@@ -218,8 +237,8 @@ public class Enemy extends  Duck
                 game.batch.draw(temp, xCoord,yCoord,64,96);
                 currentFrame++;
             }
-            // walking animation part 2
-            else if ((currentFrame < 20 && currentFrame > 10))
+            // Rebuilding animation part 2
+            else if ((currentFrame < 20 && currentFrame >= 10))
             {
                 TextureAtlas.AtlasRegion region = textureAtlas.findRegion("duck_mallet_middle_red");
 
@@ -231,7 +250,7 @@ public class Enemy extends  Duck
                 game.batch.draw(temp, xCoord,yCoord,64,96);
                 currentFrame++;
             }
-            else if((currentFrame < 30 && currentFrame > 20))
+            else if((currentFrame < 30 && currentFrame >= 20))
             {
                 TextureAtlas.AtlasRegion region = textureAtlas.findRegion("duck_mallet_down_red");
 
@@ -242,7 +261,7 @@ public class Enemy extends  Duck
                 }
                 game.batch.draw(temp, xCoord,yCoord,64,96);
                 currentFrame++;
-                if(currentFrame > 30)
+                if(currentFrame >= 30)
                 {
                     currentFrame = 0;
                 }

@@ -14,12 +14,15 @@ public class Player extends  Duck
     // a new dynamite the player may or may not have created
     Dynamite newDynamite;
 
+    MainGameScreen game;
 
-    public Player()
+
+    public Player(MainGameScreen game)
     {
         super(DuckType.PLAYER);
         xCoord = 738;
         direction = false;
+        this.game = game;
 
     }
     public void processMovement()
@@ -52,7 +55,7 @@ public class Player extends  Duck
             }
             // e throws a dynamite
             // must wait 1.5 seconds after the last dynamite thrown to throw
-            else if(Gdx.input.isKeyPressed(Input.Keys.E) && state != DuckState.THROWING
+            else if(Gdx.input.isKeyPressed(Input.Keys.E) && state != DuckState.THROWING && state != DuckState.REBUILDING
                     && System.currentTimeMillis() - throwTimerAction > 1500)
             {
                 state = DuckState.THROWING;
@@ -62,6 +65,14 @@ public class Player extends  Duck
                 throwTimerAction = System.currentTimeMillis();
                 // the new dynamite created
                 newDynamite = new Dynamite(this, xCoord);
+
+            }
+            else if(Gdx.input.isKeyPressed(Input.Keys.Q) && state != DuckState.THROWING && state != DuckState.REBUILDING
+                    && System.currentTimeMillis() - rebuildTimerAction > 1500
+                    && game.pBridge.bridgeArr[game.getClosestBlock(this)].state == BlockState.DESTROYED)
+            {
+                state = DuckState.REBUILDING;
+                rebuildTimerAction = System.currentTimeMillis();
 
             }
             // if no input, the player is stationary
@@ -84,11 +95,19 @@ public class Player extends  Duck
             // if duck is dead, do nothing;
         }
         // if no input, player is stationary
+        else if(state == DuckState.REBUILDING)
+        {
+            // fix bridge if its ready
+            if(state == DuckState.REBUILDING && (System.currentTimeMillis() - rebuildTimerAction > 1500))
+            {
+                game.pBridge.bridgeArr[game.getClosestBlock(this)].state= BlockState.REPAIRED;
+                state = DuckState.STATIONARY;
+            }
+        }
         else
         {
             state = DuckState.STATIONARY;
         }
-
 
     }
     public void draw(DynoDucks game)
@@ -172,7 +191,7 @@ public class Player extends  Duck
                 currentFrame++;
             }
             // walking animation part 2
-            else if ((currentFrame < 20 && currentFrame > 10))
+            else if ((currentFrame < 20 && currentFrame >= 10))
             {
                 TextureAtlas.AtlasRegion region = textureAtlas.findRegion("duck_mallet_middle");
 
@@ -184,7 +203,7 @@ public class Player extends  Duck
                 game.batch.draw(temp, xCoord,yCoord,64,96);
                 currentFrame++;
             }
-            else if((currentFrame < 30 && currentFrame > 20))
+            else if((currentFrame < 30 && currentFrame >= 20))
             {
                 TextureAtlas.AtlasRegion region = textureAtlas.findRegion("duck_mallet_down");
 
@@ -195,7 +214,7 @@ public class Player extends  Duck
                 }
                 game.batch.draw(temp, xCoord,yCoord,64,96);
                 currentFrame++;
-                if(currentFrame > 30)
+                if(currentFrame >= 30)
                 {
                     currentFrame = 0;
                 }

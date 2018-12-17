@@ -3,6 +3,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -31,14 +32,15 @@ public class IntroScreen implements Screen{
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
-        game.font.draw(game.batch, "The ducks have been fighting for weeks now about their respective docks.\n" +
+        game.font.draw(game.batch, "The ducks have been fighting for weeks now about their docks.\n" +
                 "After one duck’s colorful comment about the other ducks mother, war was started.\n" +
-                "The war takes place on two docks on water, one at the top and bottom of the screen.\n" +
-                "The ducks must be swift if they want their precious dock to survive.", 400, 920);
+                "The war takes place on two docks over water, one at the top and bottom of the screen.\n" +
+                "The ducks must be swift if they want they want to survive.", 400, 920);
         //game.font.draw(game.batch, "Tap anywhere to begin!", 100, 100);
         game.batch.end();
 
-        if (Gdx.input.isTouched()) {
+        if (Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.SPACE))
+        {
             // OLD (starts new game every time):
             game.setScreen(new MainGameScreen(game));
             // dispose();

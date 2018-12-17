@@ -40,7 +40,7 @@ public class MainGameScreen implements Screen {
     TiledMapRenderer tiledMapRenderer;
 
     private boolean gameOver;
-    private long timeSinceGameOver;
+    public long timeSinceGameOver = -10000;
 
 
     public MainGameScreen(DynoDucks game) {
@@ -49,7 +49,7 @@ public class MainGameScreen implements Screen {
         // switch back to this MainMenuScreen when paused.
         camera = new OrthographicCamera();
         //camera.setToOrtho(false, Globals.RESOLUTION_WIDTH,Globals.RESOLUTION_HEIGHT);
-        player = new Player();
+        player = new Player(this);
         enemy = new Enemy(this);
         pBridge = new Bridge(8);
         eBridge = new Bridge(8);
@@ -85,7 +85,7 @@ public class MainGameScreen implements Screen {
         // handle movement
         player.processMovement();
 
-        enemy.move();
+        if(enemy.state != DuckState.DEAD){enemy.move();}
         enemy.draw(game);
 
 
@@ -111,7 +111,8 @@ public class MainGameScreen implements Screen {
         }
 
         //handle dynamite movement
-        for (Dynamite dynamite : dynamiteAL) {
+        for (Dynamite dynamite : dynamiteAL)
+        {
             dynamite.draw(game);
         }
         // check to see whether a bridge block should explode
@@ -119,11 +120,11 @@ public class MainGameScreen implements Screen {
 
         // play explosion animations and sounds
         for (ExplosionAnimation explosion : explosionArrayList) {
-            explosion.explode(game, gameOver);
+            explosion.explode(game, gameOver,this);
         }
 
         // check if game is over
-        if((checkIfGameOver(player) || checkIfGameOver(enemy)) && gameOver)
+        if((checkIfGameOver(player) || checkIfGameOver(enemy)) && !gameOver)
         {
             //game over does not remove dynamite. The player can possibly still die
             gameOver = true;
@@ -231,6 +232,8 @@ public class MainGameScreen implements Screen {
                 if (pBridge.bridgeArr[minIndex].state != BlockState.DESTROYED) {
                     pBridge.bridgeArr[minIndex].hit();
                     dynamite.explode();
+                    ExplosionAnimation explosion = new ExplosionAnimation(dynamite.xCoord, dynamite.yCoord);
+                    explosionArrayList.add(explosion);
                     iter.remove();
                 }
 
@@ -249,10 +252,10 @@ public class MainGameScreen implements Screen {
         int index = 0;
         for (Integer value : blockCenters)
         {
-            System.out.println("Duck " + duck.type + " distance to block " + index + "; " + Math.abs(value - duck.getxCoord()));
-            if ((Math.abs(value - duck.getxCoord())) < min)
+            //System.out.println("Duck " + duck.type + " distance to block " + index + "; " + Math.abs(value - duck.getxCoord()));
+            if ((Math.abs(value - duck.getxCoord()-32)) < min)
             {
-                min = Math.abs(value - duck.getxCoord());
+                min = Math.abs(value - duck.getxCoord()-32);
                 minIndex = index;
             }
             index++;
@@ -267,25 +270,26 @@ public class MainGameScreen implements Screen {
         int index = 0;
         for (Integer value : blockCenters)
         {
-            System.out.println("Duck " + duck.type + " distance to block " + index + "; " + Math.abs(value - duck.getxCoord()));
-            if ((Math.abs(value - duck.getxCoord())) < min)
+            //System.out.println("Duck " + duck.type + " distance to block " + index + "; " + Math.abs(value - duck.getxCoord()));
+            if ((Math.abs(value - duck.getxCoord()-32)) < min)
             {
-                min = Math.abs(value - duck.getxCoord());
+                min = Math.abs(value - duck.getxCoord()-32);
                 minIndex = index;
             }
             index++;
         }
-        if (index == 1)
+        //System.out.println("closest block " + minIndex);
+        if (minIndex == 0)
         {
-            return 2;
+            return 1;
         }
-        else if (index == blockCenters.length -1 )
+        else if (minIndex == blockCenters.length -1 )
         {
-            return index -1;
+            return minIndex -1;
         }
         else
         {
-            return (blockCenters[index] > duck.getxCoord() ? index - 1 : index +1);
+            return (blockCenters[minIndex] > duck.getxCoord() - 32 ? minIndex - 1 : minIndex +1);
         }
     }
 
@@ -357,6 +361,7 @@ public class MainGameScreen implements Screen {
         {
             if (pBridge.bridgeArr[minIndex].state == BlockState.DESTROYED)
             {
+
                 duck.setState(DuckState.DEAD);
                 return true;
             }

@@ -16,7 +16,6 @@ public class ExplosionAnimation
     TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("explosion.atlas"));
     Sound explosionSound = Gdx.audio.newSound(Gdx.files.internal("Explosion.mp3"));
 
-
     // location of the explosion
     public ExplosionAnimation(int x, int y)
     {
@@ -26,7 +25,7 @@ public class ExplosionAnimation
         this.y = y - 30;
 
     }
-    public void explode (DynoDucks game, boolean gameOver)
+    public void explode (DynoDucks game, Boolean gameOver, MainGameScreen mainGame)
     {
         game.batch.begin();
         // for each 3 frame window
@@ -37,9 +36,16 @@ public class ExplosionAnimation
             // play sound effect on the first frame
             // take game over as a parameter to ensure that the sound doesn't overpower daffy duck
             // telling you how despicable you really are after the game is over
-            if(frame == 1 && gameOver == false)
+            if(frame == 1)
             {
-                explosionSound.play();
+                if(gameOver && System.currentTimeMillis() - mainGame.timeSinceGameOver < 3000)
+                {
+                    explosionSound.play();
+                }
+                else if(!gameOver)
+                {
+                    explosionSound.play();
+                }
             }
             TextureAtlas.AtlasRegion region = textureAtlas.findRegion("1");
             Sprite temp = new Sprite(region);

@@ -18,6 +18,7 @@ public class Dynamite extends Rectangle {
     int rotationAngle;
     boolean exploding;
 
+
     private Texture dynamite = new Texture(Gdx.files.internal("Dynamite (Transparent).png"));
 
     public Dynamite(Duck thrower, int xCoord)
@@ -69,7 +70,7 @@ public class Dynamite extends Rectangle {
             else
             {
                 // move it down if the enemy threw it
-                yCoord -= 5;
+                yCoord = yCoord - 5;
             }
 
             // create a sprite for the dynamite
