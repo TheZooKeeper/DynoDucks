@@ -4,6 +4,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -19,6 +20,7 @@ public class IntroScreen implements Screen{
     private Viewport viewport;
     private Stage stage;
     private Texture imgMainScreen;
+    private Music hellfire;
     Label instructionLeft;
     Label instructionRight;
     Label instructionThrow;
@@ -27,7 +29,6 @@ public class IntroScreen implements Screen{
     public IntroScreen(DynoDucks game){
         this.game = game;
         // Pass this MainMenuScreen to a new GameScreen, so that GameScreen can
-        // switch back to this MainMenuScreen when paused.
         camera = new OrthographicCamera();
         //stage = new Stage(this.viewport,game.batch);
         camera.setToOrtho(false, Globals.RESOLUTION_WIDTH,Globals.RESOLUTION_HEIGHT);
@@ -42,21 +43,7 @@ public class IntroScreen implements Screen{
         BitmapFont font = generator.generateFont(parameter);
         game.font = font;
 
-//        instructionLeft = new Label("\"D\" to move left!", new Label.LabelStyle(font, Color.BLACK));
-//        instructionLeft.setPosition(390,420);
-//        instructionRight = new Label("\"A\" to move right!", new Label.LabelStyle(font, Color.BLACK));
-//        instructionRight.setPosition(390,370);
-//        instructionThrow = new Label("\"E\" to throw dynamite!", new Label.LabelStyle(font,Color.BLACK));
-//        instructionThrow.setPosition(390,320);
-//        instructionRepair = new Label("\"Q\" to repair dock section (if able)!", new Label.LabelStyle(font,Color.BLACK));
-//        instructionRepair.setPosition(390,300);
-//        goBack = new Label("Click anywhere to go back to start screen", new Label.LabelStyle(font, Color.BLACK));
-//        goBack.setPosition(35, 0);
-//        stage.addActor(instructionLeft);
-//        stage.addActor(instructionThrow);
-//        stage.addActor(instructionRight);
-//        stage.addActor(instructionRepair);
-//        stage.addActor(goBack);
+
     }
     @Override
     public void show() {
@@ -72,32 +59,28 @@ public class IntroScreen implements Screen{
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
-//        game.font.draw(game.batch, "The ducks have been fighting for weeks now about their docks.\n" +
-//                "After one duck’s colorful comment about the other ducks mother, war was started.\n" +
-//                "The war takes place on two docks over water, one at the top and bottom of the screen.\n" +
-//                "The ducks must be swift if they want they want to survive.", 400, 920);
-        game.batch.draw(imgMainScreen,-130,-140,1600,960);
-        game.font.draw(game.batch,"\"D\" to move left!", 390,420);
-        game.font.draw(game.batch,"\"A\" to move right!", 390,370);
-        game.font.draw(game.batch,"\"E\" to throw dynamite!", 390,320);
-        game.font.draw(game.batch,"\"Q\" to repair dock section (if able)!",390,300);
-        game.font.draw(game.batch,"Click anywhere to go back to start screen", 35, 0);
 
-        //game.font.draw(game.batch, "Tap anywhere to begin!", 100, 100);
+        game.batch.draw(imgMainScreen,-155,-210,1800,1200);
+        game.font.draw(game.batch,"Don't fall in the water!", 1100,750);
+        game.font.draw(game.batch,"Press \"D\" to move left!", 1100,700);
+        game.font.draw(game.batch,"Press \"A\" to move right!", 1100,650);
+        game.font.draw(game.batch,"Press \"E\" to throw dynamite!", 1100,600);
+        game.font.draw(game.batch,"Press \"Q\" to repair a dock section if it's destroyed!",1100,550);
+        game.font.draw(game.batch,"Regular dock sections take 2 dynamite to destroy!", 1100, 500);
+        game.font.draw(game.batch,"Rebuilt dock sections only take 1 dynamite!", 1100, 450);
+        game.font.draw(game.batch,"Press Esc to quit!", 1100, 400);
+        game.font.draw(game.batch,"Press Space or Click to begin!", 1100, 350);
+
         game.batch.end();
 
         if (Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.SPACE))
         {
-            // OLD (starts new game every time):
+            Globals.hellfire.stop();
             game.setScreen(new MainGameScreen(game));
-            // dispose();
-            // NEW: Implement pause to main menu;
-            // switches to new gamescreen to start game;
-            // or switches back to gamescreen to resume game
-
-            //game.setScreen(gamescreen);
-            //dispose();
-
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
+        {
+            game.setScreen(new StartScreen(game));
         }
     }
 

@@ -39,16 +39,6 @@ public class Dynamite extends Rectangle {
         rotationAngle = 0;
     }
 
-    // not useful lol
-    public boolean shouldExplode() {
-        if ((getY() > Globals.RESOLUTION_HEIGHT - 192 && duck.type == DuckType.PLAYER) ||
-                (getY() < 192 && duck.type == DuckType.ENEMY)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     // whether or not a dynamite explosion has started
     public void explode()
     {
