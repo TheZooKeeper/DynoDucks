@@ -223,7 +223,6 @@ public class Enemy extends  Duck
         // rebuilding animation
         else if (state == DuckState.REBUILDING)
         {
-            System.out.println("current frame: " + currentFrame);
             // Rebuilding animation part 1
             if(currentFrame < 10)
             {

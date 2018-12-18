@@ -13,16 +13,23 @@ public class ExplosionAnimation
     private int y;
     private int frame = 0;
 
-    TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("explosion.atlas"));
-    Sound explosionSound = Gdx.audio.newSound(Gdx.files.internal("Explosion.mp3"));
+    TextureAtlas textureAtlas;
+    Sound explosionSound;
 
     // location of the explosion
-    public ExplosionAnimation(int x, int y)
+    public ExplosionAnimation(int x, int y,TextureAtlas textureAtlas, Sound explosionSound,DuckType duckType)
     {
 
         // need an offset due to original texture map being slightly off center
         this.x = x - 50;
-        this.y = y - 30;
+        this.y = y-30;
+        if(duckType == DuckType.ENEMY)
+        {
+            this.y = y -120;
+        }
+
+        this.textureAtlas = textureAtlas;
+        this.explosionSound = explosionSound;
 
     }
     public void explode (DynoDucks game, Boolean gameOver, MainGameScreen mainGame)

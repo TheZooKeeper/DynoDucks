@@ -14,7 +14,7 @@ public class DynoDucks extends Game{
 	public void create () {
 		batch = new SpriteBatch();
 		font = new BitmapFont();
-		this.setScreen(new IntroScreen(this));
+		this.setScreen(new StartScreen(this));
 	}
 
 	@Override
